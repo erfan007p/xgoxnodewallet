@@ -1,0 +1,20 @@
+extends layout
+
+block content
+  .page-header
+    h1 XGOX Wallet
+  p.lead A NodeJS/MongoDB powered XGOX Web Wallet. Send and Receive xGOx from anywhere!
+  hr
+  .row
+    .col-sm-6
+      h2 Fast & Secure
+      p This online wallet is powered upon NodeJS/MongoDB running in conjunction with a XGOX Full Node, allowing access to the speeds and power of the XGOX blockchain.
+      p
+        if user
+        else
+          a.btn.btn-default(href='/signup', role='button') Sign Up! »
+    .col-sm-6
+      h2 What is XGOX?
+      p XGOX is the CryptoCurrency of South Asia. 
+      p
+        a.btn.btn-default(href='https://www.XGOXcoin.org', target='_blank', role='button') Visit Website »

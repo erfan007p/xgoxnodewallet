@@ -1,0 +1,81 @@
+extends ../layout
+
+block content
+  script.
+    function updateDue() {
+      var amnt = parseFloat(document.getElementById("amount").value);
+      if (!amnt) { amnt = 0; }
+      var total = document.getElementById("totalwithdraw");
+      total.value = (amnt - 0.0001).toFixed(8);
+    }
+    function clicked() {
+      $('#addy').val($('#sendaddress').val());
+      $('#total').val($('#totalwithdraw').val());
+    }
+    function confirmed() {
+      $('#sendform').submit();
+    }
+  if user
+  .container
+    .page-header
+      h3(align='center')
+        | Withdraw xGOx Balance
+      p
+        .titlesmall(align='center') Send XGOX to any other xGOx address!
+      p
+        .balancesm(align='center') Balance: 
+          strong #{balance} xGOx
+      br
+      #SubmitDisplayModal.modal
+        .modal-dialog
+            .modal-content
+                .modal-header
+                    button.close(type='button', data-dismiss='modal', aria-hidden='true') &times;
+                    h4.modal-title Confirm Withdrawal
+                .modal-body
+                  .form-horizontal
+                    p(align='center')
+                      strong Are you sure you want to withdraw?
+                    .form-group
+                      label.col-sm-3.control-label.black(for='addy') Confirm Address
+                      .col-sm-8
+                        input.form-control(type='text', id='addy', disabled)
+                    .form-group
+                      label.col-sm-3.control-label.black(for='total') Confirm Total
+                      .col-sm-8
+                        .input-group
+                          input.form-control(type='text', id='total', disabled)
+                          span.input-group-addon xGOx
+                .modal-footer
+                    button.btn.btn-grey(type='submit', id='submit', onclick='confirmed()') Confirm and Send xGOx
+                    button.btn.btn-default(type='button', data-dismiss='modal') Close
+      p
+        form.form-horizontal(action='/withdraw/send', method='POST', id='sendform')
+          input(type='hidden', name='_csrf', value=_csrf)
+          .form-group
+            label.col-sm-3.control-label.black(for='sendaddress') xGOx Wallet Address
+            .col-sm-7
+              input.form-control(type='text', name='sendaddress', id='sendaddress', placeholder='GW9g94X1ocMp3G6pC9cSXFH9dza9EugKR9')
+          .form-group
+            label.col-sm-3.control-label.black(for='amount') Amount to Send
+            .col-sm-7
+              .input-group
+                input.form-control(type='text', name='amount', id='amount', placeholder='1',  onkeyup='updateDue()')
+                span.input-group-addon xGOx
+          .form-group
+            label.col-sm-3.control-label.black(for='amount') Network Fee
+            .col-sm-7
+              .input-group
+                input.form-control(type='text', name='fee', id='fee', value='-0.0001',  disabled)
+                span.input-group-addon Approx. xGOx Fee
+          .form-group
+            label.col-sm-3.control-label.black(for='total') Total with fees
+            .col-sm-7
+              .input-group
+                input.form-control(type='text', name='total', id='totalwithdraw', value='', disabled)
+                span.input-group-addon Total
+          .form-group
+            .col-sm-offset-3.col-sm-4
+              button.btn.btn-default(type='button', id='sendxGOx', onclick='clicked()', data-toggle='modal', data-target='#SubmitDisplayModal')
+                i.fa.fa-paper-plane
+                |  Send XGOX

@@ -1,0 +1,39 @@
+extends ../layout
+
+block content
+  script.
+    function show() {
+      var x = document.getElementById('box');
+      if (x.style.display === 'none') {
+          x.style.display = 'block';
+      } else {
+          x.style.display = 'none';
+      }
+    }
+  .container
+    if user
+    .page-header
+      h3(align='center')  XGOX Addresses
+      p(align='center') 
+        | Main xGOx Address
+        ul.list-group
+          li.list-group-item
+            .row
+              .col-md-6.mt(align='center')
+                strong #{addy}
+              .col-md-6(align='center')
+                a.btn.btn-sm.btn-default(href='#', onclick='show()') View Private Key
+        #box(align='center')
+          em Write down or import your private key into XGOX-QT or xgoxd to access your main wallet address
+          br
+          strong #{privkey}
+      p(align='center')
+        h3(align='center') List of Addresses
+        p(align='center') NOTE: You can only obtain the private key for your main address!
+      ul.list-group
+      each address in addresses
+        li.list-group-item
+          | #{address}
+      br
+      p(align='center')
+        a.btn.btn-default(href='/wallet', role='button') Go back to your wallet       
